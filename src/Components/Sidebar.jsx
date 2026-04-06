@@ -2,7 +2,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const theme = useSelector((store) => store.theme.mode);
 
   const menuItems = [
@@ -18,25 +18,32 @@ const Sidebar = () => {
           theme === "dark"
             ? "bg-gray-900 border-gray-700"
             : "bg-white border-gray-200"
-        }
-      `}
+        }`}
     >
-      <Link to={"/"}>
-        <h1
-          className={`text-2xl font-bold text-center mb-8 tracking-wide
-        ${theme === "dark" ? "text-white" : "text-gray-800"}
-      `}
+      {/* Header row with close button on mobile */}
+      <div className="flex items-center justify-between mb-8">
+        <Link to={"/"} onClick={onClose}>
+          <h1
+            className={`text-2xl font-bold tracking-wide
+              ${theme === "dark" ? "text-white" : "text-gray-800"}`}
+          >
+            fin<span className="text-blue-500">.track</span>
+          </h1>
+        </Link>
+        <button
+          onClick={onClose}
+          className={`lg:hidden text-xl px-2
+            ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
         >
-          fin<span className="text-blue-500">.track</span>
-        </h1>
-      </Link>
+          ✕
+        </button>
+      </div>
 
       {/* Menu */}
       <div className="flex flex-col gap-3">
         <h3
           className={`text-sm uppercase tracking-wider
-          ${theme === "dark" ? "text-gray-400" : "text-gray-500"}
-        `}
+            ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
         >
           Overview
         </h3>
@@ -46,6 +53,7 @@ const Sidebar = () => {
             <NavLink
               to={`/app/${item.name.toLowerCase()}`}
               key={index}
+              onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
                 ${
@@ -66,11 +74,9 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <div
         className={`mt-auto text-xs text-center
-        ${theme === "dark" ? "text-gray-500" : "text-gray-400"}
-      `}
+          ${theme === "dark" ? "text-gray-500" : "text-gray-400"}`}
       >
         © 2026 fin.track
       </div>

@@ -17,21 +17,21 @@ const Analytics = () => {
     <div className="p-4 text-white">
       <h1 className="text-xl font-semibold mb-4">Analytics</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>Total Income: ₹{totalIncome}</div>
         <div>Total Expense: ₹{totalExpense}</div>
         <div>Total Transactions: {transactions.length}</div>
         <div>Savings: ₹{totalIncome - totalExpense}</div>
       </div>
 
-      {/* Top Expenses */}
       <div>
         <h2 className="mb-2">Top Expenses</h2>
         {topExpenses.map((t) => (
-          <div key={t.id} className="flex justify-between border-b py-2">
-            <span>{t.description}</span>
-            <span className="text-red-500">-₹{Math.abs(t.amount)}</span>
+          <div key={t.id} className="flex justify-between border-b py-2 gap-4">
+            <span className="truncate">{t.description}</span>
+            <span className="text-red-500 whitespace-nowrap">
+              -₹{Math.abs(t.amount)}
+            </span>
           </div>
         ))}
       </div>

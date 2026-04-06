@@ -15,7 +15,6 @@ const AddTransactionForm = ({ setModal }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: name === "amount" ? Number(value) : value,
@@ -24,17 +23,14 @@ const AddTransactionForm = ({ setModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!formData.description || !formData.amount || !formData.category) {
       alert("Fill all fields");
       return;
     }
-
     if (formData.amount <= 0) {
       alert("Amount must be greater than 0");
       return;
     }
-
     const newTransaction = {
       id: "t" + Date.now(),
       date: new Date().toISOString().split("T")[0],
@@ -46,28 +42,18 @@ const AddTransactionForm = ({ setModal }) => {
           : Math.abs(formData.amount),
       type: formData.type,
     };
-
     dispatch(addTransaction(newTransaction));
-
-    setFormData({
-      description: "",
-      category: "",
-      amount: "",
-      type: "income",
-    });
-
+    setFormData({ description: "", category: "", amount: "", type: "income" });
     setModal(false);
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-gray-900 text-white p-6 rounded-2xl w-[380px] shadow-2xl border border-gray-700">
-        {/* Header */}
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+      <div className="bg-gray-900 text-white p-6 rounded-2xl w-full max-w-[380px] shadow-2xl border border-gray-700">
         <h2 className="text-xl font-semibold text-center mb-5">
           Add Transaction
         </h2>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             name="description"
@@ -77,7 +63,6 @@ const AddTransactionForm = ({ setModal }) => {
             value={formData.description}
             onChange={handleChange}
           />
-
           <input
             name="amount"
             type="number"
@@ -86,7 +71,6 @@ const AddTransactionForm = ({ setModal }) => {
             value={formData.amount}
             onChange={handleChange}
           />
-
           <select
             name="category"
             className="p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -94,7 +78,6 @@ const AddTransactionForm = ({ setModal }) => {
             onChange={handleChange}
           >
             <option value="">Select Category</option>
-
             {spendingByCategory.map((item) => (
               <option key={item.category} value={item.category.toLowerCase()}>
                 {item.category}
@@ -102,7 +85,6 @@ const AddTransactionForm = ({ setModal }) => {
             ))}
             <option value="income">Income</option>
           </select>
-
           <select
             name="type"
             className="p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -120,7 +102,6 @@ const AddTransactionForm = ({ setModal }) => {
             >
               Add
             </button>
-
             <button
               type="button"
               onClick={() => setModal(false)}
