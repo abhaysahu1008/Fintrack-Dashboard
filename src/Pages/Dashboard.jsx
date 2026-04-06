@@ -3,6 +3,7 @@ import SummaryCards from "../Components/SummaryCards";
 import Transaction from "./Transaction";
 import SimpleBarChart from "../Components/Charts/BarChart";
 import PieWithGradient from "../Components/Charts/PieChart";
+import Insights from "./Insights";
 
 const Dashboard = () => {
   const theme = useSelector((state) => state.theme.mode);
@@ -26,10 +27,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Transactions */}
       <div className="rounded-xl bg-gray-900 shadow-md">
         <Transaction limit={10} />
       </div>
+
+      <Insights />
     </div>
   );
 };

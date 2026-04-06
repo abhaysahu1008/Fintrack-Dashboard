@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTransaction } from "../utils/transactionSlice";
+import { spendingByCategory } from "../utils/constants";
 
 const AddTransactionForm = ({ setModal }) => {
   const dispatch = useDispatch();
@@ -17,15 +18,20 @@ const AddTransactionForm = ({ setModal }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "amount" ? Number(value) : value.toLowerCase(),
+      [name]: name === "amount" ? Number(value) : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.description || !formData.amount) {
-      alert("Fill required fields");
+    if (!formData.description || !formData.amount || !formData.category) {
+      alert("Fill all fields");
+      return;
+    }
+
+    if (formData.amount <= 0) {
+      alert("Amount must be greater than 0");
       return;
     }
 
@@ -42,6 +48,14 @@ const AddTransactionForm = ({ setModal }) => {
     };
 
     dispatch(addTransaction(newTransaction));
+
+    setFormData({
+      description: "",
+      category: "",
+      amount: "",
+      type: "income",
+    });
+
     setModal(false);
   };
 
@@ -73,14 +87,21 @@ const AddTransactionForm = ({ setModal }) => {
             onChange={handleChange}
           />
 
-          <input
+          <select
             name="category"
-            type="text"
-            placeholder="Category (e.g. food, salary)"
             className="p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={formData.category}
             onChange={handleChange}
-          />
+          >
+            <option value="">Select Category</option>
+
+            {spendingByCategory.map((item) => (
+              <option key={item.category} value={item.category.toLowerCase()}>
+                {item.category}
+              </option>
+            ))}
+            <option value="income">Income</option>
+          </select>
 
           <select
             name="type"
@@ -92,7 +113,6 @@ const AddTransactionForm = ({ setModal }) => {
             <option value="expense">Expense</option>
           </select>
 
-          {/* Buttons */}
           <div className="flex gap-3 mt-2">
             <button
               type="submit"

@@ -1,10 +1,23 @@
 import { useSelector } from "react-redux";
-import { summary } from "../utils/constants";
 
 const SummaryCards = () => {
   const theme = useSelector((state) => state.theme.mode);
 
-  const { totalBalance, totalIncome, totalExpenses, savingsRate } = summary;
+  const transactions = useSelector((state) => state.transactions.transactions);
+
+  // ✅ CALCULATIONS (REAL DATA)
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, curr) => acc + curr.amount, 0);
+
+  const totalExpenses = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((acc, curr) => acc + Math.abs(curr.amount), 0);
+
+  const totalBalance = totalIncome - totalExpenses;
+
+  const savingsRate =
+    totalIncome === 0 ? 0 : ((totalBalance / totalIncome) * 100).toFixed(1);
 
   const cardBase = `p-5 rounded-2xl transition-all duration-300 shadow-sm`;
 

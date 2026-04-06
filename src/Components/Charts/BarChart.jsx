@@ -6,9 +6,9 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
-import { RechartsDevtools } from "@recharts/devtools";
-import { transactions } from "../../utils/constants";
+import { useSelector } from "react-redux";
 
 const getMonthlyStats = (transactions) => {
   const results = {};
@@ -35,47 +35,34 @@ const getMonthlyStats = (transactions) => {
   return Object.values(results);
 };
 
-const monthlyData = getMonthlyStats(transactions);
-// console.log("Monthly Data:", monthlyData);
-
-// #endregion
 const SimpleBarChart = () => {
+  const transactions = useSelector((state) => state.transactions.transactions);
+
+  const monthlyData = getMonthlyStats(transactions);
+
   return (
-    <BarChart
-      style={{
-        width: "100%",
-        maxWidth: "500px",
-        maxHeight: "50vh",
-        aspectRatio: 1.618,
-      }}
-      responsive
-      data={monthlyData}
-      margin={{
-        top: 5,
-        right: 0,
-        left: 0,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="month" />
-      <YAxis width="auto" />
-      <Tooltip />
-      <Legend />
-      <Bar
-        dataKey="income"
-        fill="#8884d8"
-        activeBar={{ fill: "pink", stroke: "blue" }}
-        radius={[10, 10, 0, 0]}
-      />
-      <Bar
-        dataKey="expenses"
-        fill="#82ca9d"
-        activeBar={{ fill: "gold", stroke: "purple" }}
-        radius={[10, 10, 0, 0]}
-      />
-      <RechartsDevtools />
-    </BarChart>
+    <div className="w-full h-[350px]">
+      <ResponsiveContainer>
+        <BarChart
+          data={monthlyData}
+          margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+
+          <Bar
+            dataKey="income"
+            fill="#22c55e" // green
+            radius={[10, 10, 0, 0]}
+          />
+
+          <Bar dataKey="expenses" fill="#ef4444" radius={[10, 10, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

@@ -1,12 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// LOAD from localStorage
 const loadTransactions = () => {
-  const data = localStorage.getItem("transactions");
-  return data ? JSON.parse(data) : [];
+  try {
+    const data = localStorage.getItem("transactions");
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error("Failed to load transactions:", error);
+    return [];
+  }
 };
 
+// SAVE to localStorage
 const saveTransactions = (data) => {
-  localStorage.setItem("transactions", JSON.stringify(data));
+  try {
+    localStorage.setItem("transactions", JSON.stringify(data));
+  } catch (error) {
+    console.error("Failed to save transactions:", error);
+  }
 };
 
 const transactionSlice = createSlice({
@@ -17,10 +28,15 @@ const transactionSlice = createSlice({
   },
   reducers: {
     addTransaction: (state, action) => {
-      state.transactions.push(action.payload);
-      state.filteredTransactions = state.transactions;
+      state.transactions.unshift(action.payload);
+
+      state.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      state.filteredTransactions = [...state.transactions];
+
       saveTransactions(state.transactions);
     },
+
     filterTransaction: (state, action) => {
       state.filteredTransactions = action.payload;
     },

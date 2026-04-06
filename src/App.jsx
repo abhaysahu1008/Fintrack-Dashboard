@@ -4,11 +4,16 @@ import Login from "./Pages/Login";
 import Body from "./Components/Body";
 import Transaction from "./Pages/Transaction";
 import Analytics from "./Pages/Analytics";
+import Landing from "./Pages/Landing";
 
 function App() {
   const appRouter = createBrowserRouter([
     {
       path: "/",
+      element: <Landing />,
+    },
+    {
+      path: "/app",
       element: <Body />,
       children: [
         {

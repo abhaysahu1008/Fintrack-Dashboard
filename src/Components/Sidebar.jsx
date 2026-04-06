@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
@@ -21,14 +21,15 @@ const Sidebar = () => {
         }
       `}
     >
-      {/* Logo */}
-      <h1
-        className={`text-2xl font-bold text-center mb-8 tracking-wide
+      <Link to={"/"}>
+        <h1
+          className={`text-2xl font-bold text-center mb-8 tracking-wide
         ${theme === "dark" ? "text-white" : "text-gray-800"}
       `}
-      >
-        fin<span className="text-blue-500">.track</span>
-      </h1>
+        >
+          fin<span className="text-blue-500">.track</span>
+        </h1>
+      </Link>
 
       {/* Menu */}
       <div className="flex flex-col gap-3">
@@ -43,7 +44,7 @@ const Sidebar = () => {
         <div className="flex flex-col gap-2 mt-2">
           {menuItems.map((item, index) => (
             <NavLink
-              to={`/${item.name.toLowerCase()}`}
+              to={`/app/${item.name.toLowerCase()}`}
               key={index}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200

@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const Body = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-gray-950">
       <Sidebar />
 
       <div className="flex-1 flex flex-col">

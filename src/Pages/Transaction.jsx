@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Buttons from "../Components/Transaction-Fliter-Buttons";
 
-const Transaction = () => {
+const Transaction = ({ limit }) => {
   const [searchText, setSearchText] = useState("");
 
   const theme = useSelector((state) => state.theme.mode);
@@ -13,12 +13,16 @@ const Transaction = () => {
 
   const query = searchText.toLowerCase();
 
-  const filteredTransactions = transactions.filter(
+  const filteredTransactions = [...transactions].filter(
     (t) =>
       t.description.toLowerCase().includes(query) ||
       t.category.toLowerCase().includes(query) ||
       t.type.toLowerCase().includes(query),
   );
+
+  const displayedTransactions = limit
+    ? filteredTransactions.slice(0, limit)
+    : filteredTransactions;
 
   return (
     <div
@@ -31,7 +35,6 @@ const Transaction = () => {
           theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
         }`}
       >
-        {/* Header */}
         <div
           className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 border-b ${
             theme === "dark" ? "border-gray-700" : "border-gray-300"
@@ -59,7 +62,6 @@ const Transaction = () => {
     `}
               />
 
-              {/* Search Icon */}
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
                 🔍
               </span>
@@ -68,7 +70,6 @@ const Transaction = () => {
           </div>
         </div>
 
-        {/* Table Header */}
         <div
           className={`grid grid-cols-5 px-4 py-2 text-sm border-b font-semibold ${
             theme === "dark"
@@ -83,9 +84,8 @@ const Transaction = () => {
           <p className="text-right">Amount</p>
         </div>
 
-        {/* Data */}
         <div className="flex-1 overflow-y-auto px-4">
-          {filteredTransactions.map((t) => (
+          {displayedTransactions.map((t) => (
             <div
               key={t.id}
               className={`grid grid-cols-5 py-3 border-b items-center ${
