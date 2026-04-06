@@ -1,44 +1,51 @@
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../utils/themeSlice";
 import { users } from "../utils/constants";
+import { setRole } from "../utils/roleSlice";
 
 const Navbar = () => {
-  const user = users[0];
+  const dispatch = useDispatch();
+  const role = useSelector((state) => state.role.role);
+  const theme = useSelector((state) => state.theme.mode);
 
-  const formattedDate = new Date().toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const user = users.find((u) => u.role === role);
 
   return (
-    <div className="w-full bg-gray-900 border-b h-[75px] border-gray-700 px-6 py-4 flex items-center justify-between">
-      <div className="flex flex-col">
-        <h1 className="text-2xl font-semibold text-white">
-          Wassup, <span className="text-blue-400">{user.name}</span> ✦
-        </h1>
-        <p className="text-sm text-gray-400 mt-1">
-          Welcome back — here’s your dashboard
-        </p>
-      </div>
+    <div
+      className={`w-full px-6 py-4 flex justify-between items-center border-b
+      ${
+        theme === "dark"
+          ? "bg-gray-900 border-gray-700 text-white"
+          : "bg-gray-100 border-gray-300 text-black"
+      }`}
+    >
+      <h1 className="text-xl font-semibold">
+        Wassup, <span className="text-blue-500">{user.name}</span>
+      </h1>
 
-      <div className="flex items-center gap-6">
-        <div className="text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded-md">
-          {formattedDate}
-        </div>
+      <div className="flex gap-4 items-center">
+        <button
+          onClick={() => dispatch(toggleTheme())}
+          className="px-3 py-1 rounded bg-blue-500 text-white"
+        >
+          {theme === "dark" ? "Light" : "Dark"}
+        </button>
 
         <select
-          className="bg-gray-800 text-white text-sm px-3 py-1.5 rounded-md
-          border border-gray-600
-          focus:outline-none focus:ring-2 focus:ring-blue-500
-          hover:border-gray-400 transition"
+          value={role}
+          onChange={(e) => dispatch(setRole(e.target.value))}
+          className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+    ${
+      theme === "dark"
+        ? "bg-gray-800 text-white border border-gray-600 hover:border-gray-400 focus:ring-2 focus:ring-blue-500"
+        : "bg-white text-gray-800 border border-gray-300 hover:border-gray-500 focus:ring-2 focus:ring-blue-400"
+    }
+    focus:outline-none shadow-sm cursor-pointer
+  `}
         >
           <option value="Admin">Admin</option>
-          <option value="User">User</option>
+          <option value="Viewer">Viewer</option>
         </select>
-
-        {/* Avatar */}
-        <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-          {user.name.charAt(0)}
-        </div>
       </div>
     </div>
   );

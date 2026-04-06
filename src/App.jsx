@@ -3,12 +3,13 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Body from "./Components/Body";
 import Transaction from "./Pages/Transaction";
+import Analytics from "./Pages/Analytics";
 
 function App() {
   const appRouter = createBrowserRouter([
     {
       path: "/",
-      element: <Body />, // layout
+      element: <Body />,
       children: [
         {
           path: "dashboard",
@@ -17,6 +18,10 @@ function App() {
         {
           path: "transactions",
           element: <Transaction />,
+        },
+        {
+          path: "analytics",
+          element: <Analytics />,
         },
       ],
     },

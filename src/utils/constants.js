@@ -8,14 +8,14 @@ export const users = [
   {
     id: "u1",
     name: "Alice Johnson",
-    role: "admin",
+    role: "Admin",
     avatar: "AJ",
     email: "alice@finapp.io",
   },
   {
     id: "u2",
     name: "Bob Smith",
-    role: "viewer",
+    role: "Viewer",
     avatar: "BS",
     email: "bob@finapp.io",
   },
