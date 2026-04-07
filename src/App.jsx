@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
-import Login from "./Pages/Login";
 import Body from "./Components/Body";
 import Transaction from "./Pages/Transaction";
 import Analytics from "./Pages/Analytics";
