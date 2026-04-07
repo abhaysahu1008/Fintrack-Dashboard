@@ -1,3 +1,4 @@
+import { HashRouter } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Body from "./Components/Body";
@@ -31,7 +32,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={appRouter} />;
+  return (
+    <HashRouter>
+      <RouterProvider router={appRouter} />
+    </HashRouter>
+  );
 }
 
 export default App;
