@@ -1,17 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { transactions as dummyTransactions } from "./constants";
 
-// LOAD from localStorage
 const loadTransactions = () => {
   try {
     const data = localStorage.getItem("transactions");
-    return data ? JSON.parse(data) : [];
+    return data ? JSON.parse(data) : [...dummyTransactions]; // fallback to dummy
   } catch (error) {
     console.error("Failed to load transactions:", error);
-    return [];
+    return [...dummyTransactions];
   }
 };
 
-// SAVE to localStorage
 const saveTransactions = (data) => {
   try {
     localStorage.setItem("transactions", JSON.stringify(data));
@@ -29,11 +28,8 @@ const transactionSlice = createSlice({
   reducers: {
     addTransaction: (state, action) => {
       state.transactions.unshift(action.payload);
-
       state.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-
       state.filteredTransactions = [...state.transactions];
-
       saveTransactions(state.transactions);
     },
 
